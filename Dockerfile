@@ -1,3 +1,15 @@
+# Multi-stage build
+FROM node:25-alpine AS node-builder
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci --only=production
+
+COPY . .
+RUN npm run build
+
+# Production stage
 FROM dunglas/frankenphp:1.9-php8.4
 
 RUN install-php-extensions \
@@ -19,6 +31,9 @@ COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 
 COPY . .
+
+COPY --from=node-builder /app/public/build public/build
+
 COPY docker/frankenphp/Caddyfile /etc/caddy/Caddyfile
 
 RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interaction
