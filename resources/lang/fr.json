@@ -1,0 +1,8 @@
+{
+    "auth.failed": "Adresse mail ou mot de passe incorrects",
+    "passwords.sent": "Le lien de réinitialisation a bien été envoyé !",
+    "passwords.user": "Cette adresse mail n'existe pas",
+    "passwords.throttled": "Un lien de réinitialisation a déjà été envoyé, veuillez patienter avant de faire une nouvelle demande",
+    "passwords.token": "Une erreur s'est produite, veuillez ressayer",
+    "passwords.reset": "Votre mot de passe a bien été modifié, vous pouvez maintenant vous connecter"
+}
