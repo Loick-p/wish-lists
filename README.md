@@ -3,16 +3,17 @@
 Application pour créer des listes de cadeaux pour votre famille ou vos amis.
 
 ## Stack
-**Back end :** PHP/Laravel
+**Back :** PHP/Laravel
+
+**Front :** Tailwind, Preline
 
 ## Environnement Back
 
-- PHP 8.3
-- Laravel 11
-- PostgreSQL 16
+- PHP 8.4
+- Laravel 12
+- PostgreSQL 18
 
 ## Roadmap
-- Création de l'application avec Laravel
 - Création du front avec React
 - Adapation du back en API
 - Adapation du front avec l'API

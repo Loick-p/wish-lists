@@ -1,18 +1,6 @@
 services:
-    app:
-        build:
-            context: .
-            dockerfile: docker/app/Dockerfile
-        container_name: app
-        restart: unless-stopped
-        working_dir: /var/www/html
-        volumes:
-            - .:/var/www/html:cached
-        networks:
-            - laravel
-
     db:
-        image: postgres:16
+        image: postgres:18.0-alpine
         container_name: db
         restart: unless-stopped
         environment:
@@ -22,46 +10,26 @@ services:
         ports:
             - "5432:5432"
         volumes:
-            - pgdata:/var/lib/postgresql/data
-        networks:
-            - laravel
+            - wish-lists-local-data:/var/lib/postgresql
 
     vite:
         build:
             context: .
             dockerfile: docker/vite/Dockerfile
         container_name: vite
-        working_dir: /var/www/html
-        volumes:
-            - .:/var/www/html:cached
-        command: "npm run dev"
         ports:
             - '5173:5173'
-        networks:
-            - laravel
-
-    nginx:
-        image: nginx:alpine
-        container_name: nginx
-        ports:
-            - "80:80"
         volumes:
-            - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-            - .:/var/www/html:cached
-        networks:
-            - laravel
+            - .:/app
+            - /app/node_modules
 
     mailpit:
-        image: axllent/mailpit
+        image: axllent/mailpit:latest
         container_name: mailpit
+        restart: unless-stopped
         ports:
             - "1025:1025"
             - "8025:8025"
-        networks:
-            - laravel
-
-networks:
-    laravel:
 
 volumes:
-    pgdata:
+    wish-lists-local-data:

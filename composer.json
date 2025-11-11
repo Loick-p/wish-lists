@@ -1,12 +1,12 @@
 {
-    "name": "laravel/laravel",
+    "name": "loick-p/wish-lists",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "App for creating gift lists for your family or friends.",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
-        "laravel/framework": "^11.9",
+        "php": "^8.4",
+        "laravel/framework": "^12.0",
         "laravel/tinker": "^2.9",
         "mallardduck/blade-lucide-icons": "^1.23",
         "php-flasher/flasher-toastr-laravel": "^2.0"
