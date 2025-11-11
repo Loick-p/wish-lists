@@ -27,7 +27,7 @@
     @else
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach($gifts as $gift)
-                <div class="flex flex-col bg-white border shadow-sm rounded-xl p-2">
+                <div class="flex flex-col bg-white border border-gray-300 shadow-sm rounded-xl p-2">
                     <div class="relative">
                         <img src="{{ $gift->image ? asset('storage/gifts/' . $gift->image) : asset('images/default_gift_image.png') }}"
                              alt="{{ $gift->title }}"
