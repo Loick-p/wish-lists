@@ -1,16 +1,13 @@
-FROM node:18
+FROM node:25-alpine
 
-# Définir le répertoire de travail
-WORKDIR /var/www/html
+WORKDIR /app
 
-# Copier le package.json et package-lock.json (s'il existe)
 COPY package*.json ./
 
-# Installer les dépendances
-RUN npm install
+RUN npm i
 
-# Copier le reste de l'application
 COPY . .
 
-# Exposer le port utilisé par Vite (par défaut 5173)
 EXPOSE 5173
+
+CMD ["npm", "run", "dev"]
