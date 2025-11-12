@@ -1,0 +1,44 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: wish-lists-app
+        restart: unless-stopped
+        volumes:
+          - ./storage:/app/storage
+        labels:
+          - "traefik.enable=true"
+          - "traefik.docker.network=web"
+          - "traefik.http.routers.wish-lists-app.rule=Host(`wish-lists.loickpostel.fr`)"
+          - "traefik.http.routers.wish-lists-app.entrypoints=websecure"
+          - "traefik.http.routers.wish-lists-app.tls=true"
+          - "traefik.http.routers.wish-lists-app.tls.certresolver=loickpostelresolver"
+          - "traefik.http.services.wish-lists-app.loadbalancer.server.port=80"
+        depends_on:
+          - db
+        networks:
+          - web
+          - internal
+
+    db:
+        image: postgres:18.0-alpine
+        container_name: wish-lists-db
+        restart: unless-stopped
+        environment:
+            POSTGRES_DB: ${DB_DATABASE}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - wish-lists-data:/var/lib/postgresql
+        networks:
+            - internal
+
+volumes:
+    wish-lists-data:
+
+networks:
+    web:
+      external: true
+    internal:
+      driver: bridge
