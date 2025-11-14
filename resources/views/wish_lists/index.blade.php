@@ -14,29 +14,55 @@
         </a>
     </div>
 
-    @if($wishLists->isEmpty())
-        <p class="text-center my-2 italic text-gray-700">Vous ne faites partie d'aucune liste.</p>
-    @else
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 py-4">
-            @foreach ($wishLists as $wishList)
-                <a href="{{ route('wish_lists.show', $wishList->id) }}" class="relative w-full max-w-sm mx-auto">
-                    <img src="{{ asset('images/background/christmas-background.jpg') }}" alt="Background" class="w-full h-80 object-cover rounded-xl shadow-xl">
+    <div class="bg-gray-100 hover:bg-gray-200 rounded-lg transition p-1">
+        <nav class="flex gap-x-1" aria-label="Tabs" role="tablist" aria-orientation="horizontal">
+            <button
+                type="button"
+                class="hs-tab-active:bg-white hs-tab-active:text-gray-700 py-3 px-4 text-center flex-auto inline-flex justify-center items-center gap-x-2 bg-transparent text-sm text-gray-500 hover:text-gray-700 focus:outline-hidden focus:text-gray-700 font-medium rounded-lg hover:hover:text-red-600 disabled:opacity-50 disabled:pointer-events-none active"
+                id="wish-lists-item-1"
+                aria-selected="true"
+                data-hs-tab="#wish-lists-1"
+                aria-controls="wish-lists-1"
+                role="tab"
+            >
+                En cours
+            </button>
+            <button
+                type="button"
+                class="hs-tab-active:bg-white hs-tab-active:text-gray-700 py-3 px-4 text-center flex-auto inline-flex justify-center items-center gap-x-2 bg-transparent text-sm text-gray-500 hover:text-gray-700 focus:outline-hidden focus:text-gray-700 font-medium rounded-lg hover:hover:text-red-600 disabled:opacity-50 disabled:pointer-events-none"
+                id="wish-lists-item-2"
+                aria-selected="false"
+                data-hs-tab="#wish-lists-2"
+                aria-controls="wish-lists-2"
+                role="tab"
+            >
+                Terminée
+            </button>
+        </nav>
+    </div>
 
-                    <div class="absolute top-0 right-0 bg-white rounded-full m-2 shadow-xl flex p-2">
-                        <x-lucide-users class="w-5 h-5"/>
-                        <span class="ms-1 font-bold">{{ count($wishList->users) }}</span>
-                    </div>
+    <div class="mt-3">
+        <div id="wish-lists-1" role="tabpanel" aria-labelledby="wish-lists-item-1">
+            @php
+                $activeWishLists = $wishLists->filter(fn($wishList) => $wishList->active);
+            @endphp
 
-                    <div class="absolute bottom-0 left-0 right-0 bg-white p-4 rounded-xl m-2 shadow-xl">
-                        <h2 class="text-lg font-bold">{{ $wishList->title }}</h2>
-                        <div class="flex items-center font-light text-gray-500">
-                            <x-lucide-calendar-days class="w-5 h-5"/>
-                            <p class="ms-1">{{ date('d/m/Y', strtotime($wishList->date)) }}</p>
-                        </div>
-                        <p class="text-gray-600 my-1">{{ $wishList->description }}</p>
-                    </div>
-                </a>
-            @endforeach
+            @if($activeWishLists->isEmpty())
+                <p class="text-center my-2 italic text-gray-700">Vous n'avez aucune liste en cours.</p>
+            @else
+                @include('wish_lists.partials.wish_lists_grid', ['wishLists' => $activeWishLists])
+            @endif
         </div>
-    @endif
+        <div id="wish-lists-2" class="hidden" role="tabpanel" aria-labelledby="wish-lists-item-2">
+            @php
+                $inactiveWishLists = $wishLists->filter(fn($wishList) => !$wishList->active);
+            @endphp
+
+            @if($inactiveWishLists->isEmpty())
+                <p class="text-center my-2 italic text-gray-700">Vous n'avez aucune liste terminée.</p>
+            @else
+                @include('wish_lists.partials.wish_lists_grid', ['wishLists' => $inactiveWishLists])
+            @endif
+        </div>
+    </div>
 @endsection

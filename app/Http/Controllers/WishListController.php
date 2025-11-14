@@ -16,9 +16,13 @@ class WishListController extends Controller
 {
     public function index(): View
     {
-        return view('wish_lists.index')->with(
-            'wishLists', Auth::user()->wishLists()->orderBy('created_at', 'desc')->get()
-        );
+        $wishLists = Auth::user()->wishLists()->orderBy('created_at', 'desc')->get();
+
+        $wishLists->each(function ($wishList) {
+            $wishList->active = $wishList->date >= now()->format('Y-m-d');
+        });
+
+        return view('wish_lists.index')->with('wishLists', $wishLists);
     }
 
     public function create(): View

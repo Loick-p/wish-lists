@@ -12,17 +12,6 @@ services:
         volumes:
             - wish-lists-local-data:/var/lib/postgresql
 
-    vite:
-        build:
-            context: .
-            dockerfile: docker/vite/Dockerfile
-        container_name: vite
-        ports:
-            - '5173:5173'
-        volumes:
-            - .:/app
-            - /app/node_modules
-
     mailpit:
         image: axllent/mailpit:latest
         container_name: mailpit

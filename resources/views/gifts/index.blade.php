@@ -75,7 +75,13 @@
                                 </div>
                             @endif
 
-                            @if($gift->reservedByUser and !$wishListUser->user->is(Auth::user()))
+                            @if($gift->addedByUser->isNot($wishListUser->user))
+                                <p class="my-2 text-xs text-gray-500">
+                                    Ajouté par {{ $gift->addedByUser->name }}
+                                </p>
+                            @endif
+
+                            @if($gift->reservedByUser and $wishListUser->user->isNot(Auth::user()))
                                 <span class="bg-green-100 text-green-800 text-sm font-medium px-2.5 py-0.5 rounded">
                                     Réservé par {{ $gift->reservedByUser->name }}
                                 </span>
